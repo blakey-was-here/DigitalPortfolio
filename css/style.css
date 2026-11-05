@@ -115,13 +115,39 @@ h3 { font-size: 1.25rem; }
 
 /* ---------- Hero ---------- */
 .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
-.hero-grid {
+
+/* CRT warp background (see js/crt-warp.js) */
+.hero-bg {
+  position: absolute; inset: 0;
+  z-index: 0;
+  pointer-events: none;      /* the script listens on the window, so clicks still reach the page */
+}
+.hero-bg .crt-warp-canvas {
+  position: absolute; inset: 0;
+  display: block; width: 100%; height: 100%;
+}
+/* soft wine overlay so the headline and buttons stay easy to read */
+.hero-bg::after {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 55% 70% at 72% 50%, rgba(26, 15, 18, 0.62), transparent 75%),
+    linear-gradient(180deg, rgba(26, 15, 18, 0.35), transparent 22%, transparent 78%, rgba(26, 15, 18, 0.55));
+}
+
+/* FIX 1: minmax(0, ...) stops the huge name from forcing the text column wider,
+   which was squeezing the image column. */
+/* FIX 2: ".hero .hero-grid" is more specific than ".container", so the wider
+   width always wins over the 1120px container width. */
+.hero .hero-grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;   /* was 1.25fr 1fr: wider image column */
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
   align-items: end;
   gap: 2rem;
-  min-height: 600px;                  /* was 520px */
-  width: min(1320px, 100% - 2rem);    /* hero can be wider than the 1120px content width */
+  min-height: 640px;
+  width: min(1320px, 100% - 2rem);
+  position: relative;
+  z-index: 1;
 }
 .hero-figures {
   position: relative;
@@ -132,28 +158,31 @@ h3 { font-size: 1.25rem; }
 /* the arch behind the two portraits */
 .hero-figures::before {
   content: "";
-  position: absolute; left: 6%; right: 6%; bottom: 0; top: 14%;
+  position: absolute; left: 4%; right: 4%; bottom: 0; top: 10%;
   border-radius: 999px 999px 0 0;
   background: linear-gradient(180deg, rgba(224, 82, 92, 0.30), rgba(224, 82, 92, 0.06) 70%);
   border: 1px solid rgba(224, 82, 92, 0.45);
   border-bottom: 0;
 }
-.fig { position: relative; width: 60%; max-width: 520px; }  /* was 58% / 400px */
+.fig { position: relative; width: 58%; max-width: 560px; }
 .fig-photo { z-index: 2; }
-.fig-avatar { margin-left: -18%; }                           /* was -14% */
+.fig-avatar { margin-left: -18%; }
 
-.hero-text { align-self: center; padding: 3rem 0; }
+.hero-text { align-self: center; padding: 3rem 0; min-width: 0; }
 .hello {
   font-family: var(--font-display);
   font-size: clamp(1.2rem, 2.4vw, 1.6rem);
   color: var(--muted);
   margin-bottom: .1rem;
 }
+/* FIX 3: smaller name size so "MARIENEL" fits the text column */
 .hero h1 {
-  font-size: clamp(2.6rem, 6.4vw, 5.2rem);
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
   letter-spacing: .01em;
   text-transform: uppercase;
   line-height: 1;
+  overflow-wrap: anywhere;
+  text-shadow: 0 2px 28px rgba(26, 15, 18, 0.7);
 }
 .role {
   margin: 1rem 0 2rem;
@@ -337,10 +366,10 @@ h3 { font-size: 1.25rem; }
   .site-nav ul { flex-direction: column; }
   .site-nav a { padding: .85rem 1rem; }
 
-  .hero-grid { grid-template-columns: 1fr; min-height: 0; gap: 0; }
-  .hero-figures { width: min(100%, 520px); margin-inline: auto; }  /* was 420px */
-  .fig { width: 58%; }                                             /* was 56% */
-  .fig-avatar { margin-left: -16%; }                               /* was -12% */
+  .hero .hero-grid { grid-template-columns: minmax(0, 1fr); min-height: 0; gap: 0; }
+  .hero-figures { width: min(100%, 520px); margin-inline: auto; }
+  .fig { width: 58%; }
+  .fig-avatar { margin-left: -16%; }
   .hero-text { text-align: center; padding: 1.75rem 0 2.5rem; order: 2; }
   .hero-text .btn-row { justify-content: center; }
   .hero { border-bottom: 1px solid var(--line); }
