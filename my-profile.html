@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;700&family=Young+Serif&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/flip-card.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -31,7 +32,21 @@
   <div class="page-body">
 
     <div class="profile-intro">
-      <img src="images/profile.svg" alt="Portrait of Marienel Castillo" width="800" height="1000">
+      <div class="profile-card">
+        <div class="flip-card" data-flip-card tabindex="0" role="button" aria-pressed="false" aria-label="Portrait of Marienel Castillo. Press to flip and see her avatar.">
+          <div class="flip-card__shadow"></div>
+          <div class="flip-card__rotor">
+            <div class="flip-card__face flip-card__face--front">
+              <img src="images/profile-photo.png" alt="Portrait of Marienel Castillo" width="800" height="1000" draggable="false">
+            </div>
+            <div class="flip-card__face flip-card__face--back">
+              <img src="images/profile-avatar.png" alt="Illustrated avatar of Marienel Castillo" width="800" height="1000" draggable="false">
+            </div>
+          </div>
+          <div class="flip-card__glare"></div>
+        </div>
+        <p class="flip-hint">Tap or drag to flip</p>
+      </div>
       <div class="prose">
         <h2>Hi, I&rsquo;m Marienel</h2>
         <p>I&rsquo;m a 4th-year BS Information Technology student at National University &ndash; Manila, majoring in Multimedia Arts and Animation.</p>
@@ -80,5 +95,6 @@
   </div>
 </footer>
 <script src="js/script.js"></script>
+<script src="js/flip-card.js"></script>
 </body>
 </html>
